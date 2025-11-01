@@ -1,15 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
-  experimental: {
-    serverActions: true,
+  typescript: {
+    ignoreBuildErrors: true,
   },
   images: {
     unoptimized: true,
   },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
+  output: "standalone"  // ✅ IMPORTANT: allows server functions
 }
 
-export default nextConfig;
+export default nextConfig
