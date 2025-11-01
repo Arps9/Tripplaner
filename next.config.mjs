@@ -3,12 +3,14 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+
   images: {
     unoptimized: true,
   },
 
-  // 🚨 MOST IMPORTANT FIX 🚨
+  // ✅ Needed for Vercel dynamic auth pages
   output: "standalone",
+
   experimental: {
     serverActions: {
       bodySizeLimit: "5mb",
