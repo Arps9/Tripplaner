@@ -1,8 +1,10 @@
-"use client";                               // ✅ MUST BE FIRST LINE
-export const dynamic = "force-dynamic";     // ✅ Forces dynamic rendering
-export const revalidate = false;
+"use client";  // must be first line
 
 import type React from "react";
+import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { MapPin } from "lucide-react";
 
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -11,19 +13,19 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { OAuthButtons } from "@/components/auth/oauth-buttons";
 import { Separator } from "@/components/ui/separator";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { MapPin } from "lucide-react";
+
+// ✅ Only THIS export. No revalidate, no dynamic, no cache rules.
+export const dynamic = "force-dynamic";
 
 export default function SignUpPage() {
+  const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,40 +36,31 @@ export default function SignUpPage() {
       return;
     }
 
-    if (password.length < 8) {
-      setError("Password must be at least 8 characters");
-      return;
-    }
-
     const supabase = createClient();
     setIsLoading(true);
 
     try {
-      const { data: authData, error: signUpError } = await supabase.auth.signUp({
+      const { data, error: signUpError } = await supabase.auth.signUp({
         email,
         password,
         options: {
           data: { full_name: fullName },
-          emailRedirectTo:
-            process.env.NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL ||
-            `${window.location.origin}/auth/verify-email`,
+          emailRedirectTo: `${window.location.origin}/auth/verify-email`,
         },
       });
 
       if (signUpError) throw signUpError;
 
-      if (authData.user) {
-        await supabase.from("user_profiles").insert({
-          id: authData.user.id,
-          email,
-          full_name: fullName,
-          provider: "email",
-        });
-      }
+      await supabase.from("user_profiles").insert({
+        id: data.user?.id,
+        email,
+        full_name: fullName,
+        provider: "email",
+      });
 
-      router.push("/auth/verify-email?email=" + encodeURIComponent(email));
+      router.push(`/auth/verify-email?email=${encodeURIComponent(email)}`);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to sign up");
+      setError(err instanceof Error ? err.message : "Sign up failed");
     } finally {
       setIsLoading(false);
     }
@@ -93,6 +86,7 @@ export default function SignUpPage() {
               <CardTitle className="text-2xl">Create Account</CardTitle>
               <CardDescription>Join us to plan your perfect trip</CardDescription>
             </CardHeader>
+
             <CardContent>
               <div className="space-y-6">
 
@@ -157,28 +151,17 @@ export default function SignUpPage() {
                     </div>
                   )}
 
-                  <Button
-                    type="submit"
-                    className="w-full gradient-india text-white hover:opacity-90"
-                    disabled={isLoading}
-                  >
+                  <Button type="submit" disabled={isLoading} className="w-full gradient-india text-white hover:opacity-90">
                     {isLoading ? "Creating account..." : "Create Account"}
                   </Button>
                 </form>
 
-                <div className="space-y-2 text-sm text-center">
-                  <p className="text-muted-foreground">
-                    Already have an account?{" "}
-                    <Link href="/auth/login" className="text-primary hover:underline font-medium">
-                      Sign in
-                    </Link>
-                  </p>
-                  <p className="text-muted-foreground text-xs">
-                    <Link href="/" className="text-primary hover:underline">
-                      Back to home
-                    </Link>
-                  </p>
-                </div>
+                <p className="text-sm text-center text-muted-foreground">
+                  Already have an account?{" "}
+                  <Link href="/auth/login" className="text-primary font-medium hover:underline">
+                    Sign in
+                  </Link>
+                </p>
 
               </div>
             </CardContent>

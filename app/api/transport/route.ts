@@ -1,4 +1,6 @@
-export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic";   // ✅ prevents static rendering
+export const revalidate = false;          // ✅ disables prerender caching
+export const fetchCache = "force-no-store";
 import { type NextRequest, NextResponse } from "next/server"
 import { getTransportOptions } from "@/lib/api/transport"
 
