@@ -1,10 +1,10 @@
-"use client";  // must be FIRST line
+"use client";                     // ✅ MUST be the first line
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const dynamic = "force-dynamic";   // ✅ forces dynamic rendering
+export const revalidate = false;          // ✅ MUST be false (not number, not object)
 
-import type React from "react";
 import { useState } from "react";
+import type React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { MapPin } from "lucide-react";
@@ -58,9 +58,9 @@ export default function SignUpPage() {
         provider: "email",
       });
 
-      router.push(`/auth/verify-email?email=${encodeURIComponent(email)}`);
+      router.push(`/auth/verify-email?email=${email}`);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Sign up failed");
+      setError(err instanceof Error ? err.message : "Signup failed");
     } finally {
       setIsLoading(false);
     }
@@ -86,7 +86,6 @@ export default function SignUpPage() {
               <CardTitle className="text-2xl">Create Account</CardTitle>
               <CardDescription>Join us to plan your perfect trip</CardDescription>
             </CardHeader>
-
             <CardContent>
               <div className="space-y-6">
 
@@ -94,10 +93,9 @@ export default function SignUpPage() {
                 <Separator className="my-2" />
 
                 <form onSubmit={handleSignUp} className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="fullName">Full Name</Label>
+                  <div>
+                    <Label>Full Name</Label>
                     <Input
-                      id="fullName"
                       type="text"
                       placeholder="John Doe"
                       value={fullName}
@@ -106,42 +104,39 @@ export default function SignUpPage() {
                     />
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
+                  <div>
+                    <Label>Email</Label>
                     <Input
-                      id="email"
                       type="email"
                       placeholder="you@example.com"
-                      required
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       disabled={isLoading}
+                      required
                     />
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="password">Password</Label>
+                  <div>
+                    <Label>Password</Label>
                     <Input
-                      id="password"
                       type="password"
                       placeholder="••••••••"
-                      required
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       disabled={isLoading}
+                      required
                     />
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="confirmPassword">Confirm Password</Label>
+                  <div>
+                    <Label>Confirm Password</Label>
                     <Input
-                      id="confirmPassword"
                       type="password"
                       placeholder="••••••••"
-                      required
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
                       disabled={isLoading}
+                      required
                     />
                   </div>
 
