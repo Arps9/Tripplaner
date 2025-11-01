@@ -1,4 +1,7 @@
-"use client";  // must be first line
+"use client";  // must be FIRST line
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 import type React from "react";
 import { useState } from "react";
@@ -13,9 +16,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { OAuthButtons } from "@/components/auth/oauth-buttons";
 import { Separator } from "@/components/ui/separator";
-
-// ✅ Only THIS export. No revalidate, no dynamic, no cache rules.
-export const dynamic = "force-dynamic";
 
 export default function SignUpPage() {
   const router = useRouter();
