@@ -1,7 +1,5 @@
 "use client";                     // ✅ MUST be the first line
-
-export const dynamic = "force-dynamic";   // ✅ forces dynamic rendering
-          // ✅ MUST be false (not number, not object)
+export const dynamic = "force-dynamic"; // ✅ Makes the page dynamic (fixes build error)
 
 import { useState } from "react";
 import type React from "react";
@@ -11,7 +9,13 @@ import { MapPin } from "lucide-react";
 
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { OAuthButtons } from "@/components/auth/oauth-buttons";
@@ -71,27 +75,39 @@ export default function SignUpPage() {
       <div className="w-full max-w-sm">
         <div className="flex flex-col gap-6">
 
+          {/* Logo + Title */}
           <div className="flex flex-col gap-2 text-center mb-2">
             <div className="flex items-center justify-center gap-2">
               <div className="h-10 w-10 rounded-lg gradient-india flex items-center justify-center">
                 <MapPin className="h-6 w-6 text-white" />
               </div>
-              <span className="font-serif text-2xl font-bold text-gradient-india">Discover India</span>
+              <span className="font-serif text-2xl font-bold text-gradient-india">
+                Discover India
+              </span>
             </div>
-            <p className="text-sm text-muted-foreground">Start your journey today</p>
+            <p className="text-sm text-muted-foreground">
+              Start your journey today
+            </p>
           </div>
 
+          {/* Card */}
           <Card className="border-border/50 shadow-lg">
             <CardHeader className="space-y-3">
               <CardTitle className="text-2xl">Create Account</CardTitle>
-              <CardDescription>Join us to plan your perfect trip</CardDescription>
+              <CardDescription>
+                Join us to plan your perfect trip
+              </CardDescription>
             </CardHeader>
+
             <CardContent>
               <div className="space-y-6">
 
+                {/* OAuth Buttons */}
                 <OAuthButtons />
+
                 <Separator className="my-2" />
 
+                {/* EMAIL FORM */}
                 <form onSubmit={handleSignUp} className="space-y-4">
                   <div>
                     <Label>Full Name</Label>
@@ -146,7 +162,11 @@ export default function SignUpPage() {
                     </div>
                   )}
 
-                  <Button type="submit" disabled={isLoading} className="w-full gradient-india text-white hover:opacity-90">
+                  <Button
+                    type="submit"
+                    disabled={isLoading}
+                    className="w-full gradient-india text-white hover:opacity-90"
+                  >
                     {isLoading ? "Creating account..." : "Create Account"}
                   </Button>
                 </form>
