@@ -1,6 +1,6 @@
 "use client";                               // ✅ MUST BE FIRST LINE
 export const dynamic = "force-dynamic";     // ✅ Forces dynamic rendering
-             // ✅ No caching on Vercel
+export const revalidate = false;
 
 import type React from "react";
 
