@@ -6,7 +6,14 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  output: "standalone"  // ✅ IMPORTANT: allows server functions
-}
 
-export default nextConfig
+  // 🚨 MOST IMPORTANT FIX 🚨
+  output: "standalone",
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "5mb",
+    },
+  },
+};
+
+export default nextConfig;
