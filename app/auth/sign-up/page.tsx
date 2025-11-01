@@ -1,7 +1,7 @@
 "use client";                     // ✅ MUST be the first line
 
 export const dynamic = "force-dynamic";   // ✅ forces dynamic rendering
-export const revalidate = false;          // ✅ MUST be false (not number, not object)
+          // ✅ MUST be false (not number, not object)
 
 import { useState } from "react";
 import type React from "react";
