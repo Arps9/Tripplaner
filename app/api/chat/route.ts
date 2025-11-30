@@ -11,7 +11,7 @@ export async function POST(req: Request) {
     // Use a simple session ID based on timestamp or pass from client
     const sessionId = req.headers.get("x-session-id") || `session-${Date.now()}`
 
-    const n8nWebhookUrl = "https://glitch91.app.n8n.cloud/webhook/4c05ff66-0e36-46c2-8a04-abf75ce093b1/chat"
+    const n8nWebhookUrl = "https://paisly.app.n8n.cloud/webhook/4c05ff66-0e36-46c2-8a04-abf75ce093b1/chat
 
     console.log("[v0] Sending to n8n:", { action: "sendMessage", sessionId, chatInput: userMessage })
 
